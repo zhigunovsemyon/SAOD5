@@ -197,8 +197,8 @@ StatementAttributeLikeMacros:
 StatementMacros:
   - Q_UNUSED
   - QT_REQUIRE_VERSION
-TabWidth:        4
-UseTab:          Never
+TabWidth:        8
+UseTab:          Always
 WhitespaceSensitiveMacros:
   - BOOST_PP_STRINGIZE
   - CF_SWIFT_NAME
