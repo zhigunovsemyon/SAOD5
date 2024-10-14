@@ -28,6 +28,13 @@ typedef struct {
 	DATAYPE *data;
 } SortedVec;
 
+//Коды ошибок
+enum ErrorCodes {
+	ERR_NO, //Без ошибок
+	ERR_MALLOC,//Ошибка malloc
+	ERR_SPACE //Нет места под новый сегмент
+};
+
 // Создание вектора в памяти
 SortedVec *SortedVecInit(size_t const max_size) {
 	// Выделение памяти под дескриптор и данные
@@ -45,6 +52,7 @@ SortedVec *SortedVecInit(size_t const max_size) {
 	return ptr;
 }
 
+//Очистка памяти
 void SortedVecDeInit(SortedVec **ptr) {
 	// Освобождение памяти
 	free(*ptr);
@@ -52,8 +60,12 @@ void SortedVecDeInit(SortedVec **ptr) {
 	*ptr = nullptr;
 }
 
+
+
 int main(void) {
 	SortedVec *vec = SortedVecInit(100);
+	if (vec == nullptr)
+		return ERR_MALLOC;
 	SortedVecDeInit(&vec);
-	return EXIT_SUCCESS;
+	return ERR_NO;
 }
