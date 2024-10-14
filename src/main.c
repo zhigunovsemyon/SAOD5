@@ -18,31 +18,42 @@
 	необходимо уметь обосновать выбранные размеры переменных
 		и временных буферов.
 */
+
+// Тип данных
 #define DATAYPE int
 
 typedef struct {
-	size_t max_size;//Максимальная вместимость набора
-	size_t cur_size;//Текущий размер набора
+	size_t max_size; // Максимальная вместимость набора
+	size_t cur_size; // Текущий размер набора
 	DATAYPE *data;
 } SortedVec;
 
-SortedVec* SortedVecInit(size_t const max_size) {
-	SortedVec* ptr = (SortedVec *)malloc(sizeof(SortedVec) + sizeof(DATAYPE) * max_size);
-	if (!ptr)
-		return NULL;
+// Создание вектора в памяти
+SortedVec *SortedVecInit(size_t const max_size) {
+	// Выделение памяти под дескриптор и данные
+	SortedVec *ptr = (SortedVec *)malloc(sizeof(SortedVec) +
+					     sizeof(DATAYPE) * max_size);
+	if (!ptr) // проверка памяти
+		return nullptr;
+	// Задание максимального размера
 	ptr->max_size = max_size;
+	// Задание текущего нулевого размера
 	ptr->cur_size = 0;
+	// установка указателя на область данных
 	ptr->data = (DATAYPE *)(ptr + 1);
+	// Возврат памяти
 	return ptr;
 }
 
-void SortedVecDeInit(SortedVec **ptr){
+void SortedVecDeInit(SortedVec **ptr) {
+	// Освобождение памяти
 	free(*ptr);
-	*ptr = NULL;
+	// Перестановка указателя на NULL
+	*ptr = nullptr;
 }
 
 int main(void) {
-	SortedVec* vec = SortedVecInit(100);
+	SortedVec *vec = SortedVecInit(100);
 	SortedVecDeInit(&vec);
 	return EXIT_SUCCESS;
 }
