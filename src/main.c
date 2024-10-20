@@ -41,7 +41,7 @@ SortedVec *SortedVecInit(size_t const max_size) {
 	SortedVec *ptr = (SortedVec *)malloc(sizeof(SortedVec) +
 					     sizeof(DATAYPE) * max_size);
 	if (!ptr) // проверка памяти
-		return nullptr;
+		return NULL;
 	// Задание максимального размера
 	ptr->max_size = max_size;
 	// Задание текущего нулевого размера
@@ -57,14 +57,14 @@ void SortedVecDeInit(SortedVec **ptr) {
 	// Освобождение памяти
 	free(*ptr);
 	// Перестановка указателя на NULL
-	*ptr = nullptr;
+	*ptr = NULL;
 }
 
 
 
 int main(void) {
 	SortedVec *vec = SortedVecInit(100);
-	if (vec == nullptr)
+	if (vec == NULL)
 		return ERR_MALLOC;
 	SortedVecDeInit(&vec);
 	return ERR_NO;
