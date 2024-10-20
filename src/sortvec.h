@@ -1,14 +1,10 @@
 #pragma once
-#include <stdlib.h>
 
 // Тип данных
 #define DATAYPE int
 
-typedef struct {
-	long max_size; // Максимальная вместимость набора
-	long cur_size; // Текущий размер набора
-	DATAYPE *data;
-} SortedVec;
+/*Определение неполного типа данных*/
+typedef struct _SortedVec SortedVec;
 
 // Коды ошибок
 enum ErrorCodes {
