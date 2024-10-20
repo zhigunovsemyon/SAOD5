@@ -14,7 +14,7 @@ enum ErrorCodes {
 };
 
 // Создание вектора в памяти
-SortedVec *SortedVecInit(long const max_size);
+SortedVec *SortedVecInit(void);
 
 // Очистка памяти
 void SortedVecDeInit(SortedVec **ptr);

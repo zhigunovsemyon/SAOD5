@@ -1,6 +1,8 @@
 #include "sortvec.h"
 #include <stdlib.h> /*size_t; free(); *alloc()*/
 
+#define DEFAULT_SIZE 100 //Размер по умолчанию
+
 /*Сокрытая реализация типа данных*/
 typedef struct _SortedVec {
 	long max_size; // Максимальная вместимость набора
@@ -8,14 +10,14 @@ typedef struct _SortedVec {
 	DATAYPE *data;
 } SortedVec;
 
-SortedVec *SortedVecInit(long const max_size) {
+SortedVec *SortedVecInit(void) {
 	// Выделение памяти под дескриптор и данные
 	SortedVec *ptr = (SortedVec *)malloc(sizeof(SortedVec) +
-					     sizeof(DATAYPE) * max_size);
+					     sizeof(DATAYPE) * DEFAULT_SIZE);
 	if (!ptr) // проверка памяти
 		return NULL;
 	// Задание максимального размера
-	ptr->max_size = max_size;
+	ptr->max_size = DEFAULT_SIZE;
 	// Задание текущего нулевого размера
 	ptr->cur_size = 0;
 	// установка указателя на область данных

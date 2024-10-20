@@ -21,7 +21,7 @@
 */
 
 int main(void) {
-	SortedVec *vec = SortedVecInit(100);
+	SortedVec *vec = SortedVecInit();
 	if (vec == NULL)
 		return ERR_MALLOC;
 	SortedVecDeInit(&vec);
