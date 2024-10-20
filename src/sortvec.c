@@ -1,7 +1,7 @@
 #include "sortvec.h"
 #include <stdlib.h> /*size_t; free(); *alloc()*/
 
-SortedVec *SortedVecInit(size_t const max_size) {
+SortedVec *SortedVecInit(long const max_size) {
 	// Выделение памяти под дескриптор и данные
 	SortedVec *ptr = (SortedVec *)malloc(sizeof(SortedVec) +
 					     sizeof(DATAYPE) * max_size);

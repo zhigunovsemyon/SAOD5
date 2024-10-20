@@ -5,8 +5,8 @@
 #define DATAYPE int
 
 typedef struct {
-	size_t max_size; // Максимальная вместимость набора
-	size_t cur_size; // Текущий размер набора
+	long max_size; // Максимальная вместимость набора
+	long cur_size; // Текущий размер набора
 	DATAYPE *data;
 } SortedVec;
 
@@ -18,7 +18,7 @@ enum ErrorCodes {
 };
 
 // Создание вектора в памяти
-SortedVec *SortedVecInit(size_t const max_size);
+SortedVec *SortedVecInit(long const max_size);
 
 // Очистка памяти
 void SortedVecDeInit(SortedVec **ptr);
