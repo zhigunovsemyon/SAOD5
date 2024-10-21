@@ -59,13 +59,30 @@ void SortedVecDeInit(SortedVec **ptr) {
 	*ptr = NULL;
 }
 
+// Поиск места для вставки очередного элемента
+static DATATYPE *SortedVecFindPosition_(SortedVec *const this,
+					DATATYPE Element) {
+	size_t i;
+	/* Цикл проходится по области действительных данных.
+	* Если он находит значение, большее элемента, цикл 
+	* прерывается заранее, в противном случае цикл вернёт 
+	* элемент за пределами действительных значений.
+	* Если первый же элемент оказался больше вставляемого,
+	* осуществляется возврат этого элемента*/
+	for (i = 0; i < this->cur_size; i++) {
+		if (this->begin[i] >= Element)
+			break;
+	}
+	return this->begin + i;
+}
+
 // Внутренняя функция вставки элемента в массив достаточного размера
 static void SortedVecInsert_(SortedVec *const this, DATATYPE const Element) {
 	/*Если вектор пустой, обозначается начало посреди области памяти*/
 	if (this->cur_size == 0) {
-		this->cur_size++;
-		this->begin = this->data + this->max_size / 2;
-		*this->begin = Element;
+		this->cur_size++; // Увеличение числа элементов в массиве
+		this->begin = this->data + this->max_size / 2; // Начало посреди
+		*this->begin = Element; // Вставка элемента
 	}
 }
 
