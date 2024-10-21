@@ -1,6 +1,6 @@
 #include "sortvec.h" //includes stdlib.h
+#include <string.h> //memmove()
 #include <stdbool.h> // true, false
-#include <stdlib.h>
 
 /*Сокрытая реализация типа данных*/
 typedef struct _SortedVec {
@@ -83,6 +83,17 @@ static void SortedVecInsert_(SortedVec *const this, DATATYPE const Element) {
 		this->cur_size++; // Увеличение числа элементов в массиве
 		this->begin = this->data + this->max_size / 2; // Начало посреди
 		*this->begin = Element; // Вставка элемента
+	}
+	//Индекс, куда осуществлять вставку
+	size_t pos = SortedVecFindPosition_(this, Element);
+	//Число свободных ячеек
+	size_t FreeSpace = this->max_size - this->cur_size;
+
+	//Если найденное положение находится во второй половине
+	if (this->cur_size / 2 > pos){
+		
+	} else { //Если в первой половине
+
 	}
 }
 
