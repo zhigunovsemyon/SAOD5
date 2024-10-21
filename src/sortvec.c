@@ -2,8 +2,6 @@
 #include <stdlib.h> /*size_t; free(); *alloc()*/
 #include <stdbool.h>
 
-#define DEFAULT_SIZE 100 //Размер по умолчанию
-
 /*Сокрытая реализация типа данных*/
 typedef struct _SortedVec {
 	long max_size; // Максимальная вместимость набора
@@ -24,6 +22,7 @@ static bool SortedVecResize_(SortedVec *const this, long const newsize) {
 	return true;
 }
 
+#define DEFAULT_SIZE 100 //Размер инита по умолчанию
 SortedVec *SortedVecInit(void) {
 	// Выделение памяти под дескриптор
 	SortedVec *ptr = (SortedVec *)malloc(sizeof(SortedVec));	
