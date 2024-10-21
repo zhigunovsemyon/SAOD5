@@ -1,6 +1,5 @@
-#include "sortvec.h"
+#include "sortvec.h" //includes stdlib.h
 #include <stdio.h>
-#include <stdlib.h>
 /*Задание: сделать упорядоченный набор элементов на массиве
 Перечень операций:
 	получение элемента по индексу;

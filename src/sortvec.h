@@ -1,4 +1,5 @@
 #pragma once
+#include <stdlib.h> /*size_t; free(); *alloc()*/
 
 // Тип данных
 #define DATATYPE int
@@ -18,3 +19,7 @@ SortedVec *SortedVecInit(void);
 
 // Очистка памяти
 void SortedVecDeInit(SortedVec **ptr);
+
+/*Вставка массива чисел Array размера ArrSize в вектор*/
+int SortedVecInsertArray(SortedVec *const, size_t const ArrSize,
+			 DATATYPE const *const Array);

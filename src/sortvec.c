@@ -1,6 +1,5 @@
-#include "sortvec.h"
-#include <stdbool.h>
-#include <stdlib.h> /*size_t; free(); *alloc()*/
+#include "sortvec.h" //includes stdlib.h
+#include <stdbool.h> // true, false
 
 /*Сокрытая реализация типа данных*/
 typedef struct _SortedVec {
@@ -54,4 +53,9 @@ void SortedVecDeInit(SortedVec **ptr) {
 	free(*ptr);
 	// Перестановка указателя на NULL
 	*ptr = NULL;
+}
+
+int SortedVecInsertArray(SortedVec *const this, size_t const ArrSize,
+			 DATATYPE const *const Array) {
+	return ArrSize;
 }
