@@ -8,15 +8,21 @@
 typedef struct _SortedVec {
 	long max_size; // Максимальная вместимость набора
 	long cur_size; // Текущий размер набора
-	DATAYPE *data;
+	DATATYPE *data;
 } SortedVec;
 
-//static bool SortedVecResize_(SortedVec *const this, long const newsize) {
-//	if (this->max_size > newsize)
-//		return true;
-//
-//
-//}
+static bool SortedVecResize_(SortedVec *const this, long const newsize) {
+	if (this->max_size > newsize)
+		return true;
+
+	DATATYPE *newdata = (DATATYPE *)realloc(this->data, newsize * sizeof(DATATYPE));
+	if (newdata == NULL)
+		return false;
+
+	this->max_size = newsize;
+	this->data = newdata;
+	return true;
+}
 
 SortedVec *SortedVecInit(void) {
 	// Выделение памяти под дескриптор
@@ -24,7 +30,7 @@ SortedVec *SortedVecInit(void) {
 	if (!ptr) // проверка памяти
 		return NULL;
 	// выделение памяти под данные
-	ptr->data = (DATAYPE *)calloc(DEFAULT_SIZE, sizeof(DATAYPE));
+	ptr->data = (DATATYPE *)calloc(DEFAULT_SIZE, sizeof(DATATYPE));
 	if (!ptr->data){ // проверка памяти
 		free(ptr);
 		return NULL;
