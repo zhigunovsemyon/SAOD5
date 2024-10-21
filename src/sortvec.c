@@ -1,5 +1,6 @@
 #include "sortvec.h"
 #include <stdlib.h> /*size_t; free(); *alloc()*/
+#include <stdbool.h>
 
 #define DEFAULT_SIZE 100 //Размер по умолчанию
 
@@ -10,18 +11,29 @@ typedef struct _SortedVec {
 	DATAYPE *data;
 } SortedVec;
 
+//static bool SortedVecResize_(SortedVec *const this, long const newsize) {
+//	if (this->max_size > newsize)
+//		return true;
+//
+//
+//}
+
 SortedVec *SortedVecInit(void) {
-	// Выделение памяти под дескриптор и данные
-	SortedVec *ptr = (SortedVec *)malloc(sizeof(SortedVec) +
-					     sizeof(DATAYPE) * DEFAULT_SIZE);
+	// Выделение памяти под дескриптор
+	SortedVec *ptr = (SortedVec *)malloc(sizeof(SortedVec));	
 	if (!ptr) // проверка памяти
 		return NULL;
+	// выделение памяти под данные
+	ptr->data = (DATAYPE *)calloc(DEFAULT_SIZE, sizeof(DATAYPE));
+	if (!ptr->data){ // проверка памяти
+		free(ptr);
+		return NULL;
+	}
 	// Задание максимального размера
 	ptr->max_size = DEFAULT_SIZE;
 	// Задание текущего нулевого размера
 	ptr->cur_size = 0;
-	// установка указателя на область данных
-	ptr->data = (DATAYPE *)(ptr + 1);
+	
 	// Возврат памяти
 	return ptr;
 }
@@ -29,6 +41,7 @@ SortedVec *SortedVecInit(void) {
 // Очистка памяти
 void SortedVecDeInit(SortedVec **ptr) {
 	// Освобождение памяти
+	free((*ptr)->data);
 	free(*ptr);
 	// Перестановка указателя на NULL
 	*ptr = NULL;
