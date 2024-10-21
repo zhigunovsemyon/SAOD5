@@ -5,8 +5,9 @@
 /*Сокрытая реализация типа данных*/
 typedef struct _SortedVec {
 	long max_size; // Максимальная вместимость набора
-	long cur_size; // Текущий размер набора
-	DATATYPE *data;
+	long cur_size;	 // Текущий размер набора
+	DATATYPE *data;	 // Область памяти
+	DATATYPE *begin; // Указатель на первый действительный элемент
 } SortedVec;
 
 /*Возврат true при успехе, false при ошибке выделения памяти*/
@@ -42,6 +43,8 @@ SortedVec *SortedVecInit(void) {
 	ptr->max_size = DEFAULT_SIZE;
 	// Задание текущего нулевого размера
 	ptr->cur_size = 0;
+	// Массив пустой -- начала нет
+	ptr->begin = NULL;
 
 	// Возврат памяти
 	return ptr;
@@ -56,20 +59,25 @@ void SortedVecDeInit(SortedVec **ptr) {
 	*ptr = NULL;
 }
 
-//Внутренняя функция вставки элемента в массив достаточного размера
-static void SortedVecInsert_(SortedVec *const this, DATATYPE const Element){
-
+// Внутренняя функция вставки элемента в массив достаточного размера
+static void SortedVecInsert_(SortedVec *const this, DATATYPE const Element) {
+	/*Если вектор пустой, обозначается начало посреди области памяти*/
+	if (this->cur_size == 0) {
+		this->cur_size++;
+		this->begin = this->data + this->max_size / 2;
+		*this->begin = Element;
+	}
 }
 
 int SortedVecInsertArray(SortedVec *const this, size_t const ArrSize,
 			 DATATYPE const *const Array) {
 	/*Если места в массиве не было достаточно, а расширение не удалось,
-	* ни один элемент не был вставлен, что и возвращается*/
-	if (!SortedVecResize_(this,this->cur_size + (long)ArrSize))
+	 * ни один элемент не был вставлен, что и возвращается*/
+	if (!SortedVecResize_(this, this->cur_size + (long)ArrSize))
 		return 0;
 
 	/*Перебор массива, вставка каждого элемента*/
 	for (size_t i = 0; i < ArrSize; ++i)
 		SortedVecInsert_(this, Array[i]);
-	return ArrSize; //Возврат числа вставленных элементов
+	return ArrSize; // Возврат числа вставленных элементов
 }
