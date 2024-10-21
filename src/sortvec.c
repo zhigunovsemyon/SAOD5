@@ -1,6 +1,6 @@
 #include "sortvec.h"
-#include <stdlib.h> /*size_t; free(); *alloc()*/
 #include <stdbool.h>
+#include <stdlib.h> /*size_t; free(); *alloc()*/
 
 /*Сокрытая реализация типа данных*/
 typedef struct _SortedVec {
@@ -9,28 +9,32 @@ typedef struct _SortedVec {
 	DATATYPE *data;
 } SortedVec;
 
+/*Возврат true при успехе, false при ошибке выделения памяти*/
 static bool SortedVecResize_(SortedVec *const this, long const newsize) {
 	if (this->max_size > newsize)
 		return true;
 
-	DATATYPE *newdata = (DATATYPE *)realloc(this->data, newsize * sizeof(DATATYPE));
+	/*Перевыделение памяти, её проверка*/
+	DATATYPE *newdata = (DATATYPE *)realloc(
+		this->data, (size_t)(newsize * (long)sizeof(DATATYPE)));
 	if (newdata == NULL)
 		return false;
 
+	/*Перестановка раземеров, указателей*/
 	this->max_size = newsize;
 	this->data = newdata;
 	return true;
 }
 
-#define DEFAULT_SIZE 100 //Размер инита по умолчанию
+#define DEFAULT_SIZE 100 // Размер инита по умолчанию
 SortedVec *SortedVecInit(void) {
 	// Выделение памяти под дескриптор
-	SortedVec *ptr = (SortedVec *)malloc(sizeof(SortedVec));	
+	SortedVec *ptr = (SortedVec *)malloc(sizeof(SortedVec));
 	if (!ptr) // проверка памяти
 		return NULL;
 	// выделение памяти под данные
 	ptr->data = (DATATYPE *)calloc(DEFAULT_SIZE, sizeof(DATATYPE));
-	if (!ptr->data){ // проверка памяти
+	if (!ptr->data) { // проверка памяти
 		free(ptr);
 		return NULL;
 	}
@@ -38,7 +42,7 @@ SortedVec *SortedVecInit(void) {
 	ptr->max_size = DEFAULT_SIZE;
 	// Задание текущего нулевого размера
 	ptr->cur_size = 0;
-	
+
 	// Возврат памяти
 	return ptr;
 }
