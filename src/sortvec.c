@@ -1,5 +1,6 @@
 #include "sortvec.h" //includes stdlib.h
 #include <stdbool.h> // true, false
+#include <stdlib.h>
 
 /*Сокрытая реализация типа данных*/
 typedef struct _SortedVec {
@@ -55,7 +56,20 @@ void SortedVecDeInit(SortedVec **ptr) {
 	*ptr = NULL;
 }
 
+//Внутренняя функция вставки элемента в массив достаточного размера
+static void SortedVecInsert_(SortedVec *const this, DATATYPE const Element){
+
+}
+
 int SortedVecInsertArray(SortedVec *const this, size_t const ArrSize,
 			 DATATYPE const *const Array) {
-	return ArrSize;
+	/*Если места в массиве не было достаточно, а расширение не удалось,
+	* ни один элемент не был вставлен, что и возвращается*/
+	if (!SortedVecResize_(this,this->cur_size + (long)ArrSize))
+		return 0;
+
+	/*Перебор массива, вставка каждого элемента*/
+	for (size_t i = 0; i < ArrSize; ++i)
+		SortedVecInsert_(this, Array[i]);
+	return ArrSize; //Возврат числа вставленных элементов
 }
