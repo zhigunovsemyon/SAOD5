@@ -21,5 +21,5 @@ SortedVec *SortedVecInit(void);
 void SortedVecDeInit(SortedVec **ptr);
 
 /*Вставка массива чисел Array размера ArrSize в вектор*/
-int SortedVecInsertArray(SortedVec *const, size_t const ArrSize,
+size_t SortedVecInsertArray(SortedVec *const, size_t const ArrSize,
 			 DATATYPE const *const Array);

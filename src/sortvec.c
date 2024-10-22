@@ -1,10 +1,10 @@
 #include "sortvec.h" //includes stdlib.h
-#include <string.h> //memmove()
 #include <stdbool.h> // true, false
+#include <string.h>  //memmove()
 
 /*Сокрытая реализация типа данных*/
 typedef struct _SortedVec {
-	long max_size; // Максимальная вместимость набора
+	long max_size;	 // Максимальная вместимость набора
 	long cur_size;	 // Текущий размер набора
 	DATATYPE *data;	 // Область памяти
 	DATATYPE *begin; // Указатель на первый действительный элемент
@@ -59,10 +59,10 @@ void SortedVecDeInit(SortedVec **ptr) {
 	*ptr = NULL;
 }
 
-// Поиск места для вставки очередного элемента
-static size_t SortedVecFindPosition_(SortedVec *const this,
-					DATATYPE Element) {
-	size_t i;
+/* Поиск места для вставки очередного элемента. Возвращает индекс первого
+ * элемента, большего или равного данному */
+static size_t SortedVecFindPosition_(SortedVec *const this, DATATYPE Element) {
+	long i;
 	/* Цикл проходится по области действительных данных.
 	 * Если он находит значение, большее элемента, цикл
 	 * прерывается заранее, в противном случае цикл вернёт
@@ -73,32 +73,58 @@ static size_t SortedVecFindPosition_(SortedVec *const this,
 		if (this->begin[i] >= Element)
 			break;
 	}
-	return i;
+	return (size_t)i;
+}
+
+// Передвижение вектора от начала выделенной памяти
+static void SortedVecMoveFromBegin_(SortedVec *const this) {
+	// Число свободных ячеек
+	size_t const FreeSpace = (size_t)(this->max_size - this->cur_size);
+
+	// Перестановка указателя на новое место
+	this->begin = this->data + (FreeSpace / 2);
+	// Копирование в новое место из начала
+	memmove(this->begin, this->data,
+		sizeof(DATATYPE) * (size_t)this->cur_size);
 }
 
 // Внутренняя функция вставки элемента в массив достаточного размера
 static void SortedVecInsert_(SortedVec *const this, DATATYPE const Element) {
 	/*Если вектор пустой, обозначается начало посреди области памяти*/
-	if (this->cur_size == 0) {
-		this->cur_size++; // Увеличение числа элементов в массиве
-		this->begin = this->data + this->max_size / 2; // Начало посреди
-		*this->begin = Element; // Вставка элемента
-	}
-	//Индекс, куда осуществлять вставку
-	size_t pos = SortedVecFindPosition_(this, Element);
-	//Число свободных ячеек
-	size_t FreeSpace = this->max_size - this->cur_size;
+	if (this->cur_size == 0)
+		this->begin = this->data + this->max_size / 2;
 
-	//Если найденное положение находится во второй половине
-	if (this->cur_size / 2 > pos){
-		
-	} else { //Если в первой половине
+	// Индекс, куда осуществлять вставку
+	size_t const pos = SortedVecFindPosition_(this, Element);
 
+	// Если вставка в первой половине
+	if (pos < (size_t)this->cur_size / 2) {
+		// Если область данных достигла начала выделенной памяти
+		if (this->begin == this->data)
+			SortedVecMoveFromBegin_(this);
+
+		// Число перемещаемых элементов
+		size_t const moveData = pos;
+		// Перемещение элементов на один назад
+		memmove(this->begin - 1, this->begin,
+			moveData * sizeof(DATATYPE));
+		this->begin--; // Перемещение указателя на начало назад
+	} else {	       // Вставка во второй половине
+
+		// Число перемещаемых элементов
+		size_t const moveData = (size_t)this->cur_size - pos;
+		// Перемещение элементов на один вперёд
+		memmove(this->begin + pos + 1, this->begin + pos,
+			moveData * sizeof(DATATYPE));
 	}
+	// Вставка элемента на его новое место, увеличение счётчика
+	this->begin[pos] = Element;
+	this->cur_size++;
+	return;
 }
 
-int SortedVecInsertArray(SortedVec *const this, size_t const ArrSize,
-			 DATATYPE const *const Array) {
+size_t SortedVecInsertArray(SortedVec *const this, size_t const ArrSize,
+			    DATATYPE const *const Array) {
 	/*Если места в массиве не было достаточно, а расширение не удалось,
 	 * ни один элемент не был вставлен, что и возвращается*/
 	if (!SortedVecResize_(this, this->cur_size + (long)ArrSize))
