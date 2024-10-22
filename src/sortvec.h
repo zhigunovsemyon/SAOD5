@@ -20,6 +20,9 @@ SortedVec *SortedVecInit(void);
 // Очистка памяти
 void SortedVecDeInit(SortedVec **ptr);
 
+// Геттер элемента по индексу
+DATATYPE SortedVecGet(SortedVec const *const, long index);
+
 /*Вставка массива чисел Array размера ArrSize в вектор*/
 size_t SortedVecInsertArray(SortedVec *const, size_t const ArrSize,
 			 DATATYPE const *const Array);
