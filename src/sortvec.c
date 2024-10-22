@@ -1,9 +1,7 @@
 #include "sortvec.h" //includes stdlib.h
-#include <assert.h>
+#include <assert.h> //assert();
 #include <stdbool.h> // true, false
 #include <string.h>  //memmove()
-
-#include <stdio.h>
 
 /*Сокрытая реализация типа данных*/
 typedef struct _SortedVec {
@@ -15,7 +13,7 @@ typedef struct _SortedVec {
 
 /*Возврат true при успехе, false при ошибке выделения памяти*/
 static bool SortedVecResize_(SortedVec *const this, long const newsize) {
-	if (this->max_size > newsize)
+	if (this->max_size >= newsize)
 		return true;
 
 	/*Перевыделение памяти, её проверка*/
@@ -86,25 +84,26 @@ static size_t SortedVecFindPosition_(SortedVec *const this, DATATYPE Element) {
 static void SortedVecMoveFromEnd_(SortedVec *const this) {
 	// Число свободных ячеек
 	size_t const FreeSpace = (size_t)(this->max_size - this->cur_size);
-
-	// Перестановка указателя на новое место
+	// Сохранение указателя на старые данные
 	DATATYPE *oldptr = this->begin;
+	// Перестановка указателя на новое начало
 	this->begin = this->data + (FreeSpace / 2);
 	// Копирование в новое место из начала
 	memmove(this->begin, oldptr, sizeof(DATATYPE) * (size_t)this->cur_size);
+
+	assert(this->begin + this->cur_size < this->data + this->max_size);
 }
 
 // Передвижение вектора от начала выделенной памяти
 static void SortedVecMoveFromBegin_(SortedVec *const this) {
 	// Число свободных ячеек
 	size_t FreeSpace = (size_t)(this->max_size - this->cur_size);
-
 	assert(FreeSpace > 0);
-	if (FreeSpace == 1) {
-		/* Чтобы при делении на 2 получалось 1, и вектор сдвигался на 1
-		элемент */
+
+	/* Чтобы при делении на 2 получалось 1, и вектор сдвигался на 1
+	элемент */
+	if (FreeSpace == 1)
 		FreeSpace = 2;
-	}
 
 	// Перестановка указателя на новое место
 	this->begin = this->data + (FreeSpace / 2);
@@ -132,16 +131,14 @@ static void SortedVecInsert_(SortedVec *const this, DATATYPE const Element) {
 		// Перемещение элементов на один назад
 		memmove(this->begin - 1, this->begin,
 			moveData * sizeof(DATATYPE));
-		// Если вставка осуществляется перед существующим вектором
-		if (moveData == 0)
-			this->begin--; // Перемещение указателя на начало назад
+
+		// Перемещение указателя на начало вектора на шаг назад
+		this->begin--;
 
 	} else { // Вставка во второй половине
 		// Если область данных достигла конца выделенной памяти
 		if (this->begin + this->cur_size >= this->data + this->max_size)
 			SortedVecMoveFromEnd_(this);
-		assert(this->begin + this->cur_size <
-		       this->data + this->max_size);
 
 		// Число перемещаемых элементов
 		size_t const moveData = (size_t)this->cur_size - pos;
@@ -149,10 +146,12 @@ static void SortedVecInsert_(SortedVec *const this, DATATYPE const Element) {
 		memmove(this->begin + pos + 1, this->begin + pos,
 			moveData * sizeof(DATATYPE));
 	}
-	// Вставка элемента на его новое место, увеличение счётчика
+
 	assert(this->begin + pos < this->data + this->max_size);
 	assert(this->begin >= this->data);
 	assert(this->begin + pos >= this->data);
+
+	// Вставка элемента на его новое место, увеличение счётчика
 	this->begin[pos] = Element;
 	this->cur_size++;
 	return;
