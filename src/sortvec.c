@@ -1,6 +1,7 @@
 #include "sortvec.h" //includes stdlib.h
 #include <assert.h> //assert();
 #include <stdbool.h> // true, false
+#include <stdlib.h>
 #include <string.h>  //memmove()
 
 /*Сокрытая реализация типа данных*/
@@ -158,6 +159,46 @@ static void SortedVecInsert_(SortedVec *const this, DATATYPE const Element) {
 	return;
 }
 
+enum ErrorCodes SortedVecRemoveElement(SortedVec *const this, DATATYPE const Element) {
+	// Индекс, куда осуществлять вставку
+	size_t const pos = SortedVecFindPosition_(this, Element);
+	assert(pos <= (size_t)this->cur_size);
+
+	//Если данного элемента не было, возвращается соответствующая ошибка
+	if (pos >= (size_t)this->cur_size)
+		return ERR_NOSUCHELEMENT;
+	
+	// Если элемент был в первой половине
+	if (pos < (size_t)this->cur_size / 2) {
+		// Число перемещаемых элементов
+		size_t const moveData = pos;
+		assert(moveData < (size_t)this->cur_size);
+
+		// Перемещение элементов на один вперёд
+		memmove(this->begin + 1, this->begin,
+			moveData * sizeof(DATATYPE));
+
+		// Перемещение указателя на начало вектора на шаг вперёд
+		this->begin++;
+
+	} else { // Удаление из второй половины
+		// Число перемещаемых элементов
+		size_t const moveData = (size_t)this->cur_size - pos - 1;
+		assert(moveData < (size_t)this->cur_size);
+
+		// Перемещение элементов на один вперёд
+		memmove(this->begin + pos, this->begin + pos + 1,
+			moveData * sizeof(DATATYPE));
+	}
+
+	assert(this->begin + pos < this->data + this->max_size);
+	assert(this->begin >= this->data);
+	assert(this->begin + pos >= this->data);
+
+	// Вставка элемента на его новое место, увеличение счётчика
+	this->cur_size--;
+	return ERR_NO;
+}
 size_t SortedVecInsertArray(SortedVec *const this, size_t const ArrSize,
 			    DATATYPE const *const Array) {
 	/*Если места в массиве не было достаточно, а расширение не удалось,

@@ -47,16 +47,25 @@ int main(void) {
 
 	const size_t arrLen = 100;
 	DATATYPE *arr = (DATATYPE *)calloc(sizeof(DATATYPE), arrLen);
-	RandomiseArray(arr, arrLen);
-	// LinearFill(arr, arrLen);
+	// RandomiseArray(arr, arrLen);
+	LinearFill(arr, arrLen);
 	// ConstFill(arr, arrLen,1);
 	SortedVecInsertArray(vec, arrLen, arr);
 
 	free(arr);
 
-	for (long i = -1; ; i--){
+	for (long i = 0; ; i++){
 		DATATYPE cur;
-		if(SortedVecGet(vec, (long)i, &cur) == ERR_NOSUCHELEMENT)
+		if(SortedVecGet(vec, i, &cur) == ERR_NOSUCHELEMENT)
+			break;
+		printf("[%03ld] = %d\n", i, cur);
+	}
+
+	SortedVecRemoveElement(vec, 99);
+
+	for (long i = 0; ; i++){
+		DATATYPE cur;
+		if(SortedVecGet(vec, i, &cur) == ERR_NOSUCHELEMENT)
 			break;
 		printf("[%03ld] = %d\n", i, cur);
 	}

@@ -26,3 +26,6 @@ enum ErrorCodes SortedVecGet(SortedVec const *const, long index, DATATYPE *const
 /*Вставка массива чисел Array размера ArrSize в вектор*/
 size_t SortedVecInsertArray(SortedVec *const, size_t const ArrSize,
 			    DATATYPE const *const Array);
+
+// Удаление элемента, равного Element
+enum ErrorCodes SortedVecRemoveElement(SortedVec *const, DATATYPE const Element);
