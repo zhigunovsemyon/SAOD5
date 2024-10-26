@@ -18,17 +18,17 @@
 	сохранение структуры в файл;
 */
 
-void ConstFill(DATATYPE *arr, size_t size, DATATYPE val){
+static void ConstFill(DATATYPE *arr, size_t size, DATATYPE val){
 	while (size--)
 		arr[size] = val;//(DATATYPE)size;//rand();
 }
 
-void LinearFill(DATATYPE *arr, size_t size){
+static void LinearFill(DATATYPE *arr, size_t size){
 	while (size--)
 		arr[size] = (DATATYPE)size;//rand();
 }
 
-void RandomiseArray(DATATYPE *arr, size_t size){
+static void RandomiseArray(DATATYPE *arr, size_t size){
 	while (size--)
 		arr[size] = rand();
 }
@@ -49,7 +49,7 @@ int main(void) {
 	free(arr);
 
 	for (size_t i = 0; i < arrLen; i++)
-		printf("[%03li] = %i\n", i, SortedVecGet(vec, (long)i));
+		printf("[%03llu] = %d\n", i, SortedVecGet(vec, (long)i));
 
 	SortedVecDeInit(&vec);
 	return ERR_NO;
