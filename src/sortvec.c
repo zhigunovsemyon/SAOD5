@@ -23,7 +23,7 @@ static bool SortedVecResize_(SortedVec *const this, long const newsize) {
 		return false;
 
 	// Расстояние указателя на данные от указателя начала памяти
-	long const BeginFromDataDiff = this->begin - this->data;
+	long const BeginFromDataDiff = (long)(this->begin - this->data);
 	/*Перестановка раземеров, указателей*/
 	this->max_size = newsize;
 	this->data = newdata;
