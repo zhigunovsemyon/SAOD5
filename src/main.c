@@ -18,17 +18,17 @@
 	сохранение структуры в файл;
 */
 
-static void ConstFill(DATATYPE *arr, size_t size, DATATYPE val){
+static void ConstFill(DATATYPE *const arr, size_t size, DATATYPE const val) {
 	while (size--)
 		arr[size] = val;//(DATATYPE)size;//rand();
 }
 
-static void LinearFill(DATATYPE *arr, size_t size){
+static void LinearFill(DATATYPE *const arr, size_t size) {
 	while (size--)
 		arr[size] = (DATATYPE)size;//rand();
 }
 
-static void RandomiseArray(DATATYPE *arr, size_t size){
+static void RandomiseArray(DATATYPE *const arr, size_t size) {
 	while (size--)
 		arr[size] = rand();
 }

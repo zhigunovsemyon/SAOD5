@@ -17,7 +17,7 @@ static bool SortedVecResize_(SortedVec *const this, long const newsize) {
 		return true;
 
 	/*Перевыделение памяти, её проверка*/
-	DATATYPE *newdata = (DATATYPE *)realloc(
+	DATATYPE *const newdata = (DATATYPE *)realloc(
 		this->data, (size_t)(newsize * (long)sizeof(DATATYPE)));
 	if (newdata == NULL)
 		return false;
@@ -34,7 +34,7 @@ static bool SortedVecResize_(SortedVec *const this, long const newsize) {
 #define DEFAULT_SIZE 100 // Размер инита по умолчанию
 SortedVec *SortedVecInit(void) {
 	// Выделение памяти под дескриптор
-	SortedVec *ptr = (SortedVec *)malloc(sizeof(SortedVec));
+	SortedVec *const ptr = (SortedVec *)malloc(sizeof(SortedVec));
 	if (!ptr) // проверка памяти
 		return NULL;
 	// выделение памяти под данные
@@ -55,7 +55,7 @@ SortedVec *SortedVecInit(void) {
 }
 
 // Очистка памяти
-void SortedVecDeInit(SortedVec **ptr) {
+void SortedVecDeInit(SortedVec **const ptr) {
 	// Освобождение памяти
 	free((*ptr)->data);
 	free(*ptr);
@@ -65,7 +65,8 @@ void SortedVecDeInit(SortedVec **ptr) {
 
 /* Поиск места для вставки очередного элемента. Возвращает индекс первого
  * элемента, большего или равного данному */
-static size_t SortedVecFindPosition_(SortedVec *const this, DATATYPE Element) {
+static size_t SortedVecFindPosition_(SortedVec const *const this,
+				     DATATYPE const Element) {
 	long i;
 	/* Цикл проходится по области действительных данных.
 	 * Если он находит значение, большее элемента, цикл
@@ -85,7 +86,7 @@ static void SortedVecMoveFromEnd_(SortedVec *const this) {
 	// Число свободных ячеек
 	size_t const FreeSpace = (size_t)(this->max_size - this->cur_size);
 	// Сохранение указателя на старые данные
-	DATATYPE *oldptr = this->begin;
+	DATATYPE *const oldptr = this->begin;
 	// Перестановка указателя на новое начало
 	this->begin = this->data + (FreeSpace / 2);
 	// Копирование в новое место из начала

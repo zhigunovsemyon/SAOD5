@@ -18,7 +18,7 @@ enum ErrorCodes {
 SortedVec *SortedVecInit(void);
 
 // Очистка памяти
-void SortedVecDeInit(SortedVec **ptr);
+void SortedVecDeInit(SortedVec **const ptr);
 
 // Геттер элемента по индексу
 DATATYPE SortedVecGet(SortedVec const *const, long index);
