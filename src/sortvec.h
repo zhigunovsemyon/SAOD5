@@ -11,7 +11,7 @@ typedef struct _SortedVec SortedVec;
 enum ErrorCodes {
 	ERR_NO,	    // Без ошибок
 	ERR_MALLOC, // Ошибка malloc
-	ERR_SPACE   // Нет места под новый сегмент
+	ERR_NOSUCHELEMENT // Нет места под новый сегмент
 };
 
 // Создание вектора в памяти
@@ -20,8 +20,8 @@ SortedVec *SortedVecInit(void);
 // Очистка памяти
 void SortedVecDeInit(SortedVec **const ptr);
 
-// Геттер элемента по индексу
-DATATYPE SortedVecGet(SortedVec const *const, long index);
+// Устанавливает элемент по адресу ptr равным элементу структруры по переданному индексу
+enum ErrorCodes SortedVecGet(SortedVec const *const, long index, DATATYPE *const ptr);
 
 /*Вставка массива чисел Array размера ArrSize в вектор*/
 size_t SortedVecInsertArray(SortedVec *const, size_t const ArrSize,

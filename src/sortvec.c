@@ -171,7 +171,10 @@ size_t SortedVecInsertArray(SortedVec *const this, size_t const ArrSize,
 	return ArrSize; // Возврат числа вставленных элементов
 }
 
-DATATYPE SortedVecGet(SortedVec const *const this, long index) {
-	assert(this->begin + index < this->data + this->max_size);
-	return this->begin[index];
+enum ErrorCodes SortedVecGet(SortedVec const *const this, long index, DATATYPE *const ptr) {
+	if (index < 0 || index >= this->cur_size)
+		return ERR_NOSUCHELEMENT;
+
+	*ptr = this->begin[index];
+	return ERR_NO;
 }

@@ -54,8 +54,12 @@ int main(void) {
 
 	free(arr);
 
-	for (unsigned long i = 0; i < arrLen; i++)
-		printf("[%03ld] = %d\n", i, SortedVecGet(vec, (long)i));
+	for (unsigned long i = 0; ; i++){
+		DATATYPE cur;
+		if(SortedVecGet(vec, (long)i, &cur) == ERR_NOSUCHELEMENT)
+			break;
+		printf("[%03ld] = %d\n", i, cur);
+	}
 
 	SortedVecDeInit(&vec);
 	return ERR_NO;
