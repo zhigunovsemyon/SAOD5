@@ -172,6 +172,10 @@ size_t SortedVecInsertArray(SortedVec *const this, size_t const ArrSize,
 }
 
 enum ErrorCodes SortedVecGet(SortedVec const *const this, long index, DATATYPE *const ptr) {
+	// Если запрошен отрицательный индекс, вектор обходится с конца
+	if (index < 0)
+		index = this->cur_size + index;
+
 	if (index < 0 || index >= this->cur_size)
 		return ERR_NOSUCHELEMENT;
 
