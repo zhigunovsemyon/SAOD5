@@ -18,17 +18,23 @@
 	сохранение структуры в файл;
 */
 
-static void ConstFill(DATATYPE *const arr, size_t size, DATATYPE const val) {
+#ifdef WIN32
+#define [[maybe_unused]] 
+#else 
+#define _maybe_unused_ [[maybe_unused]] 
+#endif /* ifdef WIN32 */
+
+_maybe_unused_ static void ConstFill(DATATYPE *const arr, size_t size, DATATYPE const val) {
 	while (size--)
 		arr[size] = val;//(DATATYPE)size;//rand();
 }
 
-static void LinearFill(DATATYPE *const arr, size_t size) {
+_maybe_unused_ static void LinearFill(DATATYPE *const arr, size_t size) {
 	while (size--)
 		arr[size] = (DATATYPE)size;//rand();
 }
 
-static void RandomiseArray(DATATYPE *const arr, size_t size) {
+_maybe_unused_ static void RandomiseArray(DATATYPE *const arr, size_t size) {
 	while (size--)
 		arr[size] = rand();
 }
@@ -48,8 +54,8 @@ int main(void) {
 
 	free(arr);
 
-	for (size_t i = 0; i < arrLen; i++)
-		printf("[%03llu] = %d\n", i, SortedVecGet(vec, (long)i));
+	for (unsigned long i = 0; i < arrLen; i++)
+		printf("[%03ld] = %d\n", i, SortedVecGet(vec, (long)i));
 
 	SortedVecDeInit(&vec);
 	return ERR_NO;
