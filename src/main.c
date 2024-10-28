@@ -19,12 +19,13 @@
 */
 
 #ifdef WIN32
-#define [[maybe_unused]] 
+#define _maybe_unused_ /*Не поддерживается MSVC*/
 #else 
 #define _maybe_unused_ [[maybe_unused]] 
 #endif /* ifdef WIN32 */
 
-_maybe_unused_ static void ConstFill(DATATYPE *const arr, size_t size, DATATYPE const val) {
+_maybe_unused_ static void ConstFill(DATATYPE *const arr, size_t size,
+				     DATATYPE const val) {
 	while (size--)
 		arr[size] = val;//(DATATYPE)size;//rand();
 }
@@ -45,7 +46,7 @@ int main(void) {
 	if (vec == NULL)
 		return ERR_MALLOC;
 
-	const size_t arrLen = 100;
+	const size_t arrLen = 1'000;
 	DATATYPE *arr = (DATATYPE *)calloc(sizeof(DATATYPE), arrLen);
 	// RandomiseArray(arr, arrLen);
 	LinearFill(arr, arrLen);
