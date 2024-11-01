@@ -199,17 +199,17 @@ enum ErrorCodes SortedVecRemoveElement(SortedVec *const this, DATATYPE const Ele
 	this->cur_size--;
 	return ERR_NO;
 }
-size_t SortedVecInsertArray(SortedVec *const this, size_t const ArrSize,
+enum ErrorCodes SortedVecInsertArray(SortedVec *const this, size_t const ArrSize,
 			    DATATYPE const *const Array) {
 	/*Если места в массиве не было достаточно, а расширение не удалось,
-	 * ни один элемент не был вставлен, что и возвращается*/
+	 * возвращается соответствующий код ошибки*/
 	if (!SortedVecResize_(this, this->cur_size + (long)ArrSize))
-		return 0;
+		return ERR_MALLOC;
 
 	/*Перебор массива, вставка каждого элемента*/
 	for (size_t i = 0; i < ArrSize; ++i)
 		SortedVecInsert_(this, Array[i]);
-	return ArrSize; // Возврат числа вставленных элементов
+	return ERR_NO; // Возврат кода отсутствия ошибок
 }
 
 enum ErrorCodes SortedVecGet(SortedVec const *const this, long index, DATATYPE *const ptr) {
