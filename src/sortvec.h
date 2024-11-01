@@ -1,5 +1,4 @@
 #pragma once
-#include <stdlib.h> /*size_t; free(); *alloc()*/
 
 // Тип данных
 #define DATATYPE int

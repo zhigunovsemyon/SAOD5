@@ -1,4 +1,5 @@
-#include "sortvec.h" //includes stdlib.h
+#include "sortvec.h"
+#include <stdlib.h>  /*size_t; free(); *alloc()*/
 #include <time.h> // time()
 #include <stdio.h> // printf()
 /*Задание: сделать упорядоченный набор элементов на массиве

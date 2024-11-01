@@ -1,7 +1,7 @@
 #include "sortvec.h" //includes stdlib.h
 #include <assert.h> //assert();
 #include <stdbool.h> // true, false
-#include <stdlib.h>
+#include <stdlib.h> /*size_t; free(); *alloc()*/
 #include <string.h>  //memmove()
 
 /*Сокрытая реализация типа данных*/
