@@ -32,3 +32,6 @@ enum ErrorCodes SortedVecRemoveElement(SortedVec *const, DATATYPE const Element)
 
 // Геттер размера вектора
 long SortedVecSize(SortedVec const *const this);
+
+// Добавление в один вектор элементов из другого
+enum ErrorCodes SortedVecAddToThis(SortedVec *const this, SortedVec const *const other);

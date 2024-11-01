@@ -227,3 +227,10 @@ enum ErrorCodes SortedVecGet(SortedVec const *const this, long index, DATATYPE *
 long SortedVecSize(SortedVec const *const this) {
 	return this->cur_size;
 }
+
+enum ErrorCodes SortedVecAddToThis(SortedVec *const this,
+				   SortedVec const *const other) {
+	if(!SortedVecInsertArray(this, other->cur_size, other->begin))
+		return ERR_MALLOC; /*Возврат ошибки памяти при неудаче выделения*/
+	return ERR_NO; // Возврат кода отсутствия ошибок при успехе
+}
