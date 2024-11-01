@@ -260,3 +260,15 @@ enum ErrorCodes SortedVecAddToThis(SortedVec *const this,
 		return ERR_MALLOC; /*Возврат ошибки памяти при неудаче выделения*/
 	return ERR_NO; // Возврат кода отсутствия ошибок при успехе
 }
+
+// Максимальный элемент вектора
+enum ErrorCode SortedVecGetMax(SortedVec const *const this,
+			       DATATYPE *const ptr) {
+	return SortedVecGet(this, this->cur_size - 1, ptr);
+}
+
+// Минимальный элемент вектора вектора
+enum ErrorCode SortedVecGetMin(SortedVec const *const this,
+			       DATATYPE *const ptr) {
+	return SortedVecGet(this, 0, ptr);
+}
