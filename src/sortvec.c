@@ -223,3 +223,7 @@ enum ErrorCodes SortedVecGet(SortedVec const *const this, long index, DATATYPE *
 	*ptr = this->begin[index];
 	return ERR_NO;
 }
+
+long SortedVecSize(SortedVec const *const this) {
+	return this->cur_size;
+}

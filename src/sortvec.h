@@ -29,3 +29,6 @@ size_t SortedVecInsertArray(SortedVec *const, size_t const ArrSize,
 
 // Удаление элемента, равного Element
 enum ErrorCodes SortedVecRemoveElement(SortedVec *const, DATATYPE const Element);
+
+// Геттер размера вектора
+long SortedVecSize(SortedVec const *const this);
