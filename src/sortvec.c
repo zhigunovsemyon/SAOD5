@@ -12,6 +12,13 @@ typedef struct _SortedVec {
 	DATATYPE *begin; // Указатель на первый действительный элемент
 } SortedVec;
 
+/*Сортировка/поиск элементов по возрастанию*/
+static int SortedVecComparFunc(const void *a, const void *b) {
+	int const num1 = *((DATATYPE *)a);
+	int const num2 = *((DATATYPE *)b);
+	return (num1 > num2) - (num2 > num1);
+}
+
 /*Возврат true при успехе, false при ошибке выделения памяти*/
 static bool SortedVecResize_(SortedVec *const this, long const newsize) {
 	if (this->max_size >= newsize)
@@ -62,6 +69,25 @@ void SortedVecDeInit(SortedVec **const ptr) {
 	free(*ptr);
 	// Перестановка указателя на NULL
 	*ptr = NULL;
+}
+
+/*Функция проверки упорядоченности вектора*/
+static void SortedVecCheckOrder(SortedVec *const this) {
+	/*Если размер вектора 0 или 1, то проверять нечего*/
+	if (this->cur_size == 1 || this->cur_size == 0)
+		return;
+
+	// Перебор массива до конца
+	for (long i = 1; i < this->cur_size; ++i) {
+		/* Если хоть один элемент оказался не на своём месте,
+		вектор нужно пересортировать*/
+		if (this->begin[i - 1] > this->begin[i]) {
+			qsort(this->begin, (size_t)this->cur_size,
+			      sizeof(DATATYPE), SortedVecComparFunc);
+			// После принудительного сорта, её проверять не нужно
+			return;
+		}
+	}
 }
 
 /* Поиск места для вставки очередного элемента. Возвращает индекс первого
