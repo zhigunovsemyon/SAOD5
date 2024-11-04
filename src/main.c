@@ -7,7 +7,7 @@
 	* получение элемента по индексу;
 	* принадлежность элемента вектору
 	изменение элемента; ?
-	арифметические операции над векторами: поэлементное
+	* арифметические операции над векторами: поэлементное
 		сложение, вычитание, умножение, деление;
 	* операции определения нижней и верхней границ индекса; ?
 	* размер вектора;
@@ -63,7 +63,7 @@ int main(void) {
 		printf("[%03ld] = %lf\n", i, cur);
 	}
 
-	SortedVecRemoveElement(vec, 99);
+	SortedVecDivideEachElement(vec, -2.0);
 
 	for (long i = 0; ; i++){
 		DATATYPE cur;
@@ -72,7 +72,6 @@ int main(void) {
 		printf("[%03ld] = %lf\n", i, cur);
 	}
 
-	printf("counter = %d\n", SortedVecDoesBelong(vec, 2));
 
 	SortedVecDeInit(&vec);
 	return ERR_NO;

@@ -45,4 +45,24 @@ enum ErrorCodes SortedVecAddToThis(SortedVec *const this, SortedVec const *const
 
 /*Проверка принадлежности элемента element вектору this.
 1 -- принадлежит, 0 -- не принадлежит */
-int SortedVecDoesBelong(SortedVec const *const this, DATATYPE element);
+int SortedVecDoesBelong(SortedVec const *const this, DATATYPE const element);
+
+// Прибавить к каждому элементу вектора offset
+void SortedVecIncreaseEachElement(SortedVec *const this,
+				  DATATYPE const offset);
+
+// Умножить каждый элемент вектора на mult
+void SortedVecMultiplyEachElement(SortedVec *const this,
+				  DATATYPE const mult);
+
+// Вычесть из каждого элемента вектора offset
+inline void SortedVecDecreaseEachElement(SortedVec *const this,
+					 DATATYPE const offset) {
+	SortedVecIncreaseEachElement(this, (-1) * offset);
+}
+
+// Поделить каждый элемент вектора на div
+inline void SortedVecDivideEachElement(SortedVec *const this,
+					 DATATYPE const div) {
+	SortedVecMultiplyEachElement(this, 1 / div);
+}

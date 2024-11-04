@@ -273,7 +273,23 @@ enum ErrorCode SortedVecGetMin(SortedVec const *const this,
 	return SortedVecGet(this, 0, ptr);
 }
 
-int SortedVecDoesBelong(SortedVec const *const this, DATATYPE element) {
+int SortedVecDoesBelong(SortedVec const *const this, DATATYPE const element) {
 	return ((DATATYPE *)bsearch(&element, this->begin, (size_t)(this->cur_size),
 		sizeof(DATATYPE), SortedVecComparFunc_)) ? 1 : 0;
+}
+
+void SortedVecIncreaseEachElement(SortedVec *const this, DATATYPE const offset) {
+	for (long i = 0; i < this->cur_size; ++i)
+		this->begin[i] += offset;
+	
+	// Проверка вектора на случай переполнения числа
+	SortedVecCheckOrder(this);
+}
+
+void SortedVecMultiplyEachElement(SortedVec *const this, DATATYPE const mult) {
+	for (long i = 0; i < this->cur_size; ++i)
+		this->begin[i] *= mult;
+
+	// Проверка вектора на случай переполнения числа
+	SortedVecCheckOrder(this);
 }
