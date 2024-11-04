@@ -42,3 +42,7 @@ enum ErrorCode SortedVecGetMin(SortedVec const *const this,
 
 // Добавление в один вектор элементов из другого
 enum ErrorCodes SortedVecAddToThis(SortedVec *const this, SortedVec const *const other);
+
+/*Проверка принадлежности элемента element вектору this.
+1 -- принадлежит, 0 -- не принадлежит */
+int SortedVecDoesBelong(SortedVec const *const this, DATATYPE element);

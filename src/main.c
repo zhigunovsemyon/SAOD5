@@ -5,14 +5,14 @@
 /*Задание: сделать упорядоченный набор элементов на массиве
 Перечень операций:
 	* получение элемента по индексу;
-	принадлежность элемента вектору
+	* принадлежность элемента вектору
 	изменение элемента; ?
 	арифметические операции над векторами: поэлементное
 		сложение, вычитание, умножение, деление;
 	* операции определения нижней и верхней границ индекса; ?
 	* размер вектора;
 	* инициализация вектора и его очистка;
-	слияние векторов;
+	* слияние векторов;
 	//допы:
 	* случайное заполнение структуры данных; ?
 	заполнение из файла;
@@ -47,11 +47,11 @@ int main(void) {
 	if (vec == NULL)
 		return ERR_MALLOC;
 
-	const size_t arrLen = 1'000;
+	const size_t arrLen = 10;
 	DATATYPE *arr = (DATATYPE *)calloc(sizeof(DATATYPE), arrLen);
-	// RandomiseArray(arr, arrLen);
-	LinearFill(arr, arrLen);
-	// ConstFill(arr, arrLen,1);
+	RandomiseArray(arr, arrLen);
+	//LinearFill(arr, arrLen);
+	ConstFill(arr, arrLen,1);
 	SortedVecInsertArray(vec, arrLen, arr);
 
 	free(arr);
@@ -71,6 +71,8 @@ int main(void) {
 			break;
 		printf("[%03ld] = %d\n", i, cur);
 	}
+
+	printf("counter = %d\n", SortedVecDoesBelong(vec, 2));
 
 	SortedVecDeInit(&vec);
 	return ERR_NO;

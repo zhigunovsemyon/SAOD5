@@ -13,7 +13,7 @@ typedef struct _SortedVec {
 } SortedVec;
 
 /*Сортировка/поиск элементов по возрастанию*/
-static int SortedVecComparFunc(const void *a, const void *b) {
+static int SortedVecComparFunc_(const void *a, const void *b) {
 	int const num1 = *((DATATYPE *)a);
 	int const num2 = *((DATATYPE *)b);
 	return (num1 > num2) - (num2 > num1);
@@ -83,7 +83,7 @@ static void SortedVecCheckOrder(SortedVec *const this) {
 		вектор нужно пересортировать*/
 		if (this->begin[i - 1] > this->begin[i]) {
 			qsort(this->begin, (size_t)this->cur_size,
-			      sizeof(DATATYPE), SortedVecComparFunc);
+			      sizeof(DATATYPE), SortedVecComparFunc_);
 			// После принудительного сорта, её проверять не нужно
 			return;
 		}
@@ -271,4 +271,9 @@ enum ErrorCode SortedVecGetMax(SortedVec const *const this,
 enum ErrorCode SortedVecGetMin(SortedVec const *const this,
 			       DATATYPE *const ptr) {
 	return SortedVecGet(this, 0, ptr);
+}
+
+int SortedVecDoesBelong(SortedVec const *const this, DATATYPE element) {
+	return ((DATATYPE *)bsearch(&element, this->begin, (size_t)(this->cur_size),
+		sizeof(DATATYPE), SortedVecComparFunc_)) ? 1 : 0;
 }
