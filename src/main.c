@@ -60,7 +60,7 @@ int main(void) {
 		DATATYPE cur;
 		if(SortedVecGet(vec, i, &cur) == ERR_NOSUCHELEMENT)
 			break;
-		printf("[%03ld] = %d\n", i, cur);
+		printf("[%03ld] = %lf\n", i, cur);
 	}
 
 	SortedVecRemoveElement(vec, 99);
@@ -69,7 +69,7 @@ int main(void) {
 		DATATYPE cur;
 		if(SortedVecGet(vec, i, &cur) == ERR_NOSUCHELEMENT)
 			break;
-		printf("[%03ld] = %d\n", i, cur);
+		printf("[%03ld] = %lf\n", i, cur);
 	}
 
 	printf("counter = %d\n", SortedVecDoesBelong(vec, 2));

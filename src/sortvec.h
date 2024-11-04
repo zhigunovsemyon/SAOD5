@@ -1,7 +1,7 @@
 #pragma once
 
 // Тип данных
-#define DATATYPE int
+#define DATATYPE double
 
 /*Определение неполного типа данных*/
 typedef struct _SortedVec SortedVec;
