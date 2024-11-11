@@ -1,4 +1,5 @@
 #pragma once
+#include <stdlib.h> /*size_t; free(); *alloc()*/
 
 // Тип данных
 #define DATATYPE double
@@ -7,7 +8,7 @@
 typedef struct _SortedVec SortedVec;
 
 // Коды ошибок
-enum ErrorCodes {
+enum ErrorCode {
 	ERR_NO,	    // Без ошибок
 	ERR_MALLOC, // Ошибка malloc
 	ERR_NOSUCHELEMENT // Нет места под новый сегмент
@@ -20,14 +21,14 @@ SortedVec *SortedVecInit(void);
 void SortedVecDeInit(SortedVec **const ptr);
 
 // Устанавливает элемент по адресу ptr равным элементу структруры по переданному индексу
-enum ErrorCodes SortedVecGet(SortedVec const *const, long index, DATATYPE *const ptr);
+enum ErrorCode SortedVecGet(SortedVec const *const, long index, DATATYPE *const ptr);
 
 /*Вставка массива чисел Array размера ArrSize в вектор*/
-enum ErrorCodes SortedVecInsertArray(SortedVec *const, size_t const ArrSize,
+enum ErrorCode SortedVecInsertArray(SortedVec *const, size_t const ArrSize,
 			    DATATYPE const *const Array);
 
 // Удаление элемента, равного Element
-enum ErrorCodes SortedVecRemoveElement(SortedVec *const, DATATYPE const Element);
+enum ErrorCode SortedVecRemoveElement(SortedVec *const, DATATYPE const Element);
 
 // Геттер размера вектора
 long SortedVecSize(SortedVec const *const this);
@@ -41,7 +42,7 @@ enum ErrorCode SortedVecGetMin(SortedVec const *const this,
 			       DATATYPE *const ptr);
 
 // Добавление в один вектор элементов из другого
-enum ErrorCodes SortedVecAddToThis(SortedVec *const this, SortedVec const *const other);
+enum ErrorCode SortedVecAddToThis(SortedVec *const this, SortedVec const *const other);
 
 /*Проверка принадлежности элемента element вектору this.
 1 -- принадлежит, 0 -- не принадлежит */
@@ -62,7 +63,7 @@ inline void SortedVecDecreaseEachElement(SortedVec *const this,
 }
 
 // Поделить каждый элемент вектора на div
-inline void SortedVecDivideEachElement(SortedVec *const this,
+void SortedVecDivideEachElement(SortedVec *const this,
 					 DATATYPE const div) {
 	SortedVecMultiplyEachElement(this, 1 / div);
 }

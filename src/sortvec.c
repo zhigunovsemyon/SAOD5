@@ -1,7 +1,6 @@
 #include "sortvec.h" //includes stdlib.h
 #include <assert.h> //assert();
 #include <stdbool.h> // true, false
-#include <stdlib.h> /*size_t; free(); *alloc()*/
 #include <string.h>  //memmove()
 
 /*Сокрытая реализация типа данных*/
@@ -185,7 +184,7 @@ static void SortedVecInsert_(SortedVec *const this, DATATYPE const Element) {
 	return;
 }
 
-enum ErrorCodes SortedVecRemoveElement(SortedVec *const this, DATATYPE const Element) {
+enum ErrorCode SortedVecRemoveElement(SortedVec *const this, DATATYPE const Element) {
 	// Индекс, куда осуществлять вставку
 	size_t const pos = SortedVecFindPosition_(this, Element);
 	assert(pos <= (size_t)this->cur_size);
@@ -225,7 +224,7 @@ enum ErrorCodes SortedVecRemoveElement(SortedVec *const this, DATATYPE const Ele
 	this->cur_size--;
 	return ERR_NO;
 }
-enum ErrorCodes SortedVecInsertArray(SortedVec *const this, size_t const ArrSize,
+enum ErrorCode SortedVecInsertArray(SortedVec *const this, size_t const ArrSize,
 			    DATATYPE const *const Array) {
 	/*Если места в массиве не было достаточно, а расширение не удалось,
 	 * возвращается соответствующий код ошибки*/
@@ -238,7 +237,7 @@ enum ErrorCodes SortedVecInsertArray(SortedVec *const this, size_t const ArrSize
 	return ERR_NO; // Возврат кода отсутствия ошибок
 }
 
-enum ErrorCodes SortedVecGet(SortedVec const *const this, long index, DATATYPE *const ptr) {
+enum ErrorCode SortedVecGet(SortedVec const *const this, long index, DATATYPE *const ptr) {
 	// Если запрошен отрицательный индекс, вектор обходится с конца
 	if (index < 0)
 		index = this->cur_size + index;
@@ -254,9 +253,9 @@ long SortedVecSize(SortedVec const *const this) {
 	return this->cur_size;
 }
 
-enum ErrorCodes SortedVecAddToThis(SortedVec *const this,
+enum ErrorCode SortedVecAddToThis(SortedVec *const this,
 				   SortedVec const *const other) {
-	if(!SortedVecInsertArray(this, other->cur_size, other->begin))
+	if(!SortedVecInsertArray(this, (size_t)(other->cur_size), other->begin))
 		return ERR_MALLOC; /*Возврат ошибки памяти при неудаче выделения*/
 	return ERR_NO; // Возврат кода отсутствия ошибок при успехе
 }
