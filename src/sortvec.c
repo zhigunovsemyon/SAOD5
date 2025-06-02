@@ -292,3 +292,9 @@ void SortedVecMultiplyEachElement(SortedVec *const this, DATATYPE const mult) {
 	// Проверка вектора на случай переполнения числа
 	SortedVecCheckOrder(this);
 }
+
+void SortedVecDivideEachElement(SortedVec *const this,
+					 DATATYPE const div) 
+{
+	SortedVecMultiplyEachElement(this, 1 / div);
+}
