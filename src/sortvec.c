@@ -1,5 +1,5 @@
 #include "sortvec.h" //includes stdlib.h
-#include <assert.h> //assert();
+#include <assert.h>  //assert();
 #include <stdbool.h> // true, false
 #include <string.h>  //memmove()
 
@@ -13,8 +13,8 @@ typedef struct _SortedVec {
 
 /*Сортировка/поиск элементов по возрастанию*/
 static int SortedVecComparFunc_(const void *a, const void *b) {
-	DATATYPE const num1 = *((DATATYPE *)a);
-	DATATYPE const num2 = *((DATATYPE *)b);
+	DATATYPE const num1 = *((DATATYPE *)b);
+	DATATYPE const num2 = *((DATATYPE *)a);
 	return (num1 > num2) - (num2 > num1);
 }
 
@@ -80,7 +80,8 @@ static void SortedVecCheckOrder(SortedVec *const this) {
 	for (long i = 1; i < this->cur_size; ++i) {
 		/* Если хоть один элемент оказался не на своём месте,
 		вектор нужно пересортировать*/
-		if (this->begin[i - 1] > this->begin[i]) {
+		if (SortedVecComparFunc_(this->begin + i - 1,
+					 this->begin + i) > 0) {
 			qsort(this->begin, (size_t)this->cur_size,
 			      sizeof(DATATYPE), SortedVecComparFunc_);
 			// После принудительного сорта, её проверять не нужно
@@ -101,7 +102,7 @@ static size_t SortedVecFindPosition_(SortedVec const *const this,
 	 * Если первый же элемент оказался больше вставляемого,
 	 * осуществляется возврат этого индекса*/
 	for (i = 0; i < this->cur_size; i++) {
-		if (this->begin[i] >= Element)
+		if (SortedVecComparFunc_(&(this->begin[i]), &Element) > 0)
 			break;
 	}
 	return (size_t)i;
@@ -184,15 +185,16 @@ static void SortedVecInsert_(SortedVec *const this, DATATYPE const Element) {
 	return;
 }
 
-enum ErrorCode SortedVecRemoveElement(SortedVec *const this, DATATYPE const Element) {
+enum ErrorCode SortedVecRemoveElement(SortedVec *const this,
+				      DATATYPE const Element) {
 	// Индекс, куда осуществлять вставку
 	size_t const pos = SortedVecFindPosition_(this, Element);
 	assert(pos <= (size_t)this->cur_size);
 
-	//Если данного элемента не было, возвращается соответствующая ошибка
+	// Если данного элемента не было, возвращается соответствующая ошибка
 	if (pos >= (size_t)this->cur_size)
 		return ERR_NOSUCHELEMENT;
-	
+
 	// Если элемент был в первой половине
 	if (pos < (size_t)this->cur_size / 2) {
 		// Число перемещаемых элементов
@@ -225,7 +227,7 @@ enum ErrorCode SortedVecRemoveElement(SortedVec *const this, DATATYPE const Elem
 	return ERR_NO;
 }
 enum ErrorCode SortedVecInsertArray(SortedVec *const this, size_t const ArrSize,
-			    DATATYPE const *const Array) {
+				    DATATYPE const *const Array) {
 	/*Если места в массиве не было достаточно, а расширение не удалось,
 	 * возвращается соответствующий код ошибки*/
 	if (!SortedVecResize_(this, this->cur_size + (long)ArrSize))
@@ -237,7 +239,8 @@ enum ErrorCode SortedVecInsertArray(SortedVec *const this, size_t const ArrSize,
 	return ERR_NO; // Возврат кода отсутствия ошибок
 }
 
-enum ErrorCode SortedVecGet(SortedVec const *const this, long index, DATATYPE *const ptr) {
+enum ErrorCode SortedVecGet(SortedVec const *const this, long index,
+			    DATATYPE *const ptr) {
 	// Если запрошен отрицательный индекс, вектор обходится с конца
 	if (index < 0)
 		index = this->cur_size + index;
@@ -254,10 +257,12 @@ long SortedVecSize(SortedVec const *const this) {
 }
 
 enum ErrorCode SortedVecAddToThis(SortedVec *const this,
-				   SortedVec const *const other) {
-	if(!SortedVecInsertArray(this, (size_t)(other->cur_size), other->begin))
-		return ERR_MALLOC; /*Возврат ошибки памяти при неудаче выделения*/
-	return ERR_NO; // Возврат кода отсутствия ошибок при успехе
+				  SortedVec const *const other) {
+	if (!SortedVecInsertArray(this, (size_t)(other->cur_size),
+				  other->begin))
+		return ERR_MALLOC; /*Возврат ошибки памяти при неудаче
+				      выделения*/
+	return ERR_NO;		   // Возврат кода отсутствия ошибок при успехе
 }
 
 // Максимальный элемент вектора
@@ -273,14 +278,18 @@ enum ErrorCode SortedVecGetMin(SortedVec const *const this,
 }
 
 int SortedVecDoesBelong(SortedVec const *const this, DATATYPE const element) {
-	return ((DATATYPE *)bsearch(&element, this->begin, (size_t)(this->cur_size),
-		sizeof(DATATYPE), SortedVecComparFunc_)) ? 1 : 0;
+	return ((DATATYPE *)bsearch(&element, this->begin,
+				    (size_t)(this->cur_size), sizeof(DATATYPE),
+				    SortedVecComparFunc_))
+		       ? 1
+		       : 0;
 }
 
-void SortedVecIncreaseEachElement(SortedVec *const this, DATATYPE const offset) {
+void SortedVecIncreaseEachElement(SortedVec *const this,
+				  DATATYPE const offset) {
 	for (long i = 0; i < this->cur_size; ++i)
 		this->begin[i] += offset;
-	
+
 	// Проверка вектора на случай переполнения числа
 	SortedVecCheckOrder(this);
 }
@@ -293,8 +302,6 @@ void SortedVecMultiplyEachElement(SortedVec *const this, DATATYPE const mult) {
 	SortedVecCheckOrder(this);
 }
 
-void SortedVecDivideEachElement(SortedVec *const this,
-					 DATATYPE const div) 
-{
+void SortedVecDivideEachElement(SortedVec *const this, DATATYPE const div) {
 	SortedVecMultiplyEachElement(this, 1 / div);
 }
